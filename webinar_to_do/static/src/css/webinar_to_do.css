@@ -1,0 +1,18 @@
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+}
+
+.status-badge.pendiente {
+    background-color: #999999; /* Gris */
+}
+
+.status-badge.en_progreso {
+    background-color: #FFA500; /* Naranja */
+}
+
+.status-badge.completada {
+    background-color: #4CAF50; /* Verde */
+}

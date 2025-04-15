@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_tree_todo" model="ir.ui.view">
+        <field name="name">wb.todo.tree</field>
+        <field name="model">wb.todo</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Tareas" 
+            decoration-success="status == 'completada'"
+            decoration-danger="prioridad == 'alta' and status != 'completada'"
+            decoration-warning="prioridad == 'media' and status != 'completada'"
+            decoration-muted="prioridad == 'baja' and status != 'completada'">
+                <field name="name"/>
+                <field name="status"/>
+                <field name="fecha_limite"/>
+                <field name="prioridad"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_form_todo" model="ir.ui.view">
+        <field name="name">wb.todo.form</field>
+        <field name="model">wb.todo</field>
+        <field name="arch" type="xml">
+            <form string="Tarea">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="status"/>
+                        <field name="prioridad"/>
+                        <field name="fecha_limite"/>
+                    </group>
+                </sheet>    
+            </form>
+        </field>
+    </record>
+
+    <record id="view_kanban_todo" model="ir.ui.view">
+        <field name="name">wb.todo.kanban</field>
+        <field name="model">wb.todo</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <!-- Campos necesarios para el kanban -->
+                <field name="name"/>
+                <field name="status"/>
+                <field name="color"/>
+                <field name="prioridad"/>
+                <field name="fecha_limite"/> <!-- 👈 Se declara aquí para que el kanban pueda usarlo -->
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_{{ record.color.raw_value }} o_kanban_record">
+                            <div class="oe_kanban_details">
+                                <strong><t t-esc="record.name.value"/></strong>
+                                <div>
+                                    <span t-att-class="'status-badge ' + record.status.raw_value">
+                                        <t t-esc="record.status.value"/>
+                                    </span>
+                                </div>
+                                <!-- 👇 Aquí se muestra la fecha límite -->
+                                <div>
+                                    <small>Prioridad:</small>
+                                    <span><t t-esc="record.prioridad.value"/></span>
+                                </div>
+                                <div>
+                                    <small>Fecha límite:</small>
+                                    <span><t t-esc="record.fecha_limite.value"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="action_view_todo" model="ir.actions.act_window">
+        <field name="name">Lista de Tareas</field>
+        <field name="res_model">wb.todo</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0), 
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_kanban_todo')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_tree_todo')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_form_todo')})]"/>
+    </record>
+
+    <menuitem id="menu_todo_root" name="To Do"/>
+    <menuitem id="menu_todo" name="Tareas" parent="menu_todo_root" action="action_view_todo"/>
+</odoo>
