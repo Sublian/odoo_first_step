@@ -5,7 +5,7 @@ class Todo(models.Model):
     _name = "wb.todo"
     _description = "Tarea de Webinar"
 
-    name = fields.Char("Nombre")
+    name = fields.Char("Nombre", required=True)
     status = fields.Selection([
         ('pendiente', 'Pendiente'),
         ('en_progreso', 'En Progreso'),
@@ -40,6 +40,9 @@ class Todo(models.Model):
     @api.model
     def cron_actualizar_estado(self):
         today = date.today()
-        records = self.search([('status', '!=', 'completada'), ('fecha_limite', '<', today)])
+        records = self.search([
+            ('status', '!=', 'completada'), 
+            ('fecha_limite', '<', today)
+        ])
         for rec in records:
             rec.status = 'no_realizado'

@@ -1,7 +1,7 @@
 <odoo>
     <data noupdate="1">
 
-        <record id="ir_cron_wb_todo_check_estado" model="ir.cron">
+        <record id="ir_cron_actualizar_estado" model="ir.cron">
             <field name="name">Revisión de tareas vencidas</field>
             <field name="model_id" ref="model_wb_todo"/>
             <field name="state">code</field>
