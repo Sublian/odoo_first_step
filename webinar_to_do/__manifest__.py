@@ -5,7 +5,7 @@
     'category': 'Productivity',
     'author': 'Tu Nombre',
     'depends': ['base'],
-    'data': ['views/views.xml', 'security/ir.model.access.csv'],
+    'data': ['views/views.xml', 'security/ir.model.access.csv', 'data/cron.xml'],
     'assets': {
         'web.assets_backend': [
             'webinar_to_do/static/src/css/webinar_to_do.css',

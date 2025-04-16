@@ -12,7 +12,8 @@
                 <field name="name"/>
                 <field name="status"/>
                 <field name="fecha_limite"/>
-                <field name="prioridad"/>
+                <field name="prioridad"/>                
+                <field name="responsable_id"/>
             </tree>
         </field>
     </record>
@@ -28,6 +29,7 @@
                         <field name="status"/>
                         <field name="prioridad"/>
                         <field name="fecha_limite"/>
+                        <field name="responsable_id"/>
                     </group>
                 </sheet>    
             </form>
@@ -43,6 +45,7 @@
                 <field name="name"/>
                 <field name="status"/>
                 <field name="color"/>
+                <field name="responsable_id"/>
                 <field name="prioridad"/>
                 <field name="fecha_limite"/> <!-- 👈 Se declara aquí para que el kanban pueda usarlo -->
 
@@ -55,6 +58,9 @@
                                     <span t-att-class="'status-badge ' + record.status.raw_value">
                                         <t t-esc="record.status.value"/>
                                     </span>
+                                </div>
+                                <div>
+                                    <strong>Responsable:</strong> <t t-esc="record.responsable_id.value"/>
                                 </div>
                                 <!-- 👇 Aquí se muestra la fecha límite -->
                                 <div>
